@@ -54,6 +54,14 @@ EISeg(Efficient Interactive Segmentation)基于飞桨开发的一个高效智能
   * 覆盖遥感、医疗、视频、3D医疗等众多垂类场景
   * 多平台兼容，简单易用，支持多类别标签管理
 
+## <img src="../docs/images/chat.png" width="20"/> 技术交流
+
+* 如果您对EISeg有任何问题和建议，欢迎在[GitHub Issues](https://github.com/PaddlePaddle/PaddleSeg/issues)提issue。
+* 欢迎您加入EISeg微信群，和大家交流讨论、一起共建EISeg，而且可以**领取重磅学习大礼包🎁**。
+<div align="center">
+<img src="https://user-images.githubusercontent.com/35907364/184841582-84a3c12d-0b50-48cc-9762-11fdd56b59eb.jpg"  width = "200" />  
+</div>
+
 ## <img src="../docs/images/teach.png" width="20"/> 使用教程
 * [安装说明](docs/install.md)
 * [图像标注](docs/image.md)
@@ -85,18 +93,19 @@ EISeg(Efficient Interactive Segmentation)基于飞桨开发的一个高效智能
 如果我们的项目在学术上帮助到你，请考虑以下引用：
 
 ```latex
-@article{hao2021edgeflow,
-  title={EdgeFlow: Achieving Practical Interactive Segmentation with Edge-Guided Flow},
+@article{hao2022eiseg,
+  title={EISeg: An Efficient Interactive Segmentation Tool based on PaddlePaddle},
+  author={Hao, Yuying and Liu, Yi and Chen, Yizhou and Han, Lin and Peng, Juncai and Tang, Shiyu and Chen, Guowei and Wu, Zewu and Chen, Zeyu and Lai, Baohua},
+  journal={arXiv e-prints},
+  pages={arXiv--2210},
+  year={2022}
+}
+
+@inproceedings{hao2021edgeflow,
+  title={Edgeflow: Achieving practical interactive segmentation with edge-guided flow},
   author={Hao, Yuying and Liu, Yi and Wu, Zewu and Han, Lin and Chen, Yizhou and Chen, Guowei and Chu, Lutao and Tang, Shiyu and Yu, Zhiliang and Chen, Zeyu and others},
-  journal={arXiv preprint arXiv:2109.09406},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={1551--1560},
   year={2021}
 }
 ```
-
-## <img src="../docs/images/chat.png" width="20"/> 技术交流
-
-* 如果您对EISeg有任何问题，欢迎在PaddleSeg issue下进行提问：[GitHub Issues](https://github.com/PaddlePaddle/PaddleSeg/issues).
-* 欢迎您加入EISeg交流群，和我们一起共建EISeg。
-<div align="center">
-<img src="https://user-images.githubusercontent.com/35907364/184841582-84a3c12d-0b50-48cc-9762-11fdd56b59eb.jpg"  width = "200" />  
-</div>
