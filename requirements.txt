@@ -6,3 +6,5 @@ filelock
 scipy
 prettytable
 sklearn == 0.0
+paddlepaddle-gpu==2.1.0
+

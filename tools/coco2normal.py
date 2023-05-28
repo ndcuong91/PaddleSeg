@@ -3,45 +3,57 @@ import os, cv2
 from PIL import Image
 import numpy as np
 from matplotlib import pyplot as plt
-# %matplotlib inline
 
-coco = COCO('/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header_segmentation/result.json')
-img_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header_segmentation'
-image_id = 1
+'''
+coco dataset should have structure likes
+├── images
+│   ├── 0755ecb7-golf2_028.jpeg
+│   ├── 07fb2f8f-golf2_023.jpeg
+│   ├── ...
+└── result.json
+'''
 
-img = coco.imgs[image_id]
-# loading annotations into memory...
-# Done (t=12.70s)
-# creating index...
-# index created!
-img_path = os.path.join(img_dir, img['file_name'])
-print(img_path)
-image = np.array(Image.open(img_path))
-plt.imshow(image, interpolation='nearest')
-# plt.show()
-# plt.imshow(image)
-cat_ids = coco.getCatIds()
-anns_ids = coco.getAnnIds(imgIds=img['id'], catIds=cat_ids, iscrowd=None)
-anns = coco.loadAnns(anns_ids)
-# coco.showAnns(anns)
-mask = coco.annToMask(anns[0])
-for i in range(len(anns)):
-    kk= coco.annToMask(anns[i])
-    mask += coco.annToMask(anns[i])
+coco_dir = '/home/duycuong/PycharmProjects/PaddleSeg/data/golf_header_segmentation'
+coco_anno_path = os.path.join(coco_dir, 'result.json')
+save_anno_dir = '/home/duycuong/PycharmProjects/PaddleSeg/data/golf_header_segmentation/anno'
+def coco2normal():
+    coco = COCO(coco_anno_path)
 
+    for idx in coco.imgs:
+        img = coco.imgs[idx]
+        img_path = os.path.join(coco_dir, img['file_name'])
+        print(img_path)
+        image = np.array(Image.open(img_path))
+        plt.imshow(image, interpolation='nearest')
+        # plt.show()
+        # plt.imshow(image)
+        cat_ids = coco.getCatIds()
+        anns_ids = coco.getAnnIds(imgIds=img['id'], catIds=cat_ids, iscrowd=None)
+        anns = coco.loadAnns(anns_ids)
+        # coco.showAnns(anns)
+        mask = np.zeros((img['height'],img['width']))
+        for i in range(len(anns)):
+            # kk= coco.annToMask(anns[i])
+            mask += coco.annToMask(anns[i])*(1+anns[i]['category_id'])
 
-cv2.imwrite(img_path.replace('.jpeg','.png'), mask)
+        save_path = os.path.join(save_anno_dir,coco.imgs[idx]['file_name'].replace('.jpeg','.png'))
+        save_dir = os.path.dirname(save_path)
+        if not os.path.exists(save_dir): os.makedirs(save_dir)
+        cv2.imwrite(save_path, mask)
 
-# anns_img = np.zeros((img['height'],img['width']))
-# for ann in anns:
-#     anns_img = np.maximum(anns_img,coco.annToMask(ann)*ann['category_id'])
+    # anns_img = np.zeros((img['height'],img['width']))
+    # for ann in anns:
+    #     anns_img = np.maximum(anns_img,coco.annToMask(ann)*ann['category_id'])
 
-# cv2.imshow('abc',mask)
-# cv2.waitKey(0)
+    # cv2.imshow('abc',mask)
+    # cv2.waitKey(0)
 
-# cat_ids = coco.getCatIds()
-# anns_ids = coco.getAnnIds(imgIds=img['id'], catIds=cat_ids, iscrowd=None)
-# anns = coco.loadAnns(anns_ids)
-# anns_img = np.zeros((img['height'],img['width']))
-# for ann in anns:
-#     anns_img = np.maximum(anns_img,coco.annToMask(ann)*ann['category_id'])
+    # cat_ids = coco.getCatIds()
+    # anns_ids = coco.getAnnIds(imgIds=img['id'], catIds=cat_ids, iscrowd=None)
+    # anns = coco.loadAnns(anns_ids)
+    # anns_img = np.zeros((img['height'],img['width']))
+    # for ann in anns:
+    #     anns_img = np.maximum(anns_img,coco.annToMask(ann)*ann['category_id'])
+
+if __name__ =='__main__':
+    coco2normal()

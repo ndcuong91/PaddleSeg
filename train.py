@@ -15,19 +15,24 @@
 import argparse
 import random
 
-import paddle
+import paddle, os
 import numpy as np
 
 from paddleseg.cvlibs import manager, Config
 from paddleseg.utils import get_sys_env, logger, config_check
 from paddleseg.core import train
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+config_file = '/home/duycuong/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
+batch_size = 8
+do_eval= True
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
     # params of training
     parser.add_argument(
-        "--config", dest="cfg", help="The config file.", default=None, type=str)
+        "--config", dest="cfg", help="The config file.", default=config_file, type=str)
     parser.add_argument(
         '--iters',
         dest='iters',
@@ -39,7 +44,7 @@ def parse_args():
         dest='batch_size',
         help='Mini batch size of one gpu or cpu',
         type=int,
-        default=None)
+        default=batch_size)
     parser.add_argument(
         '--learning_rate',
         dest='learning_rate',
@@ -80,6 +85,7 @@ def parse_args():
         '--do_eval',
         dest='do_eval',
         help='Eval while training',
+        default = do_eval,
         action='store_true')
     parser.add_argument(
         '--log_iters',
@@ -138,7 +144,6 @@ def parse_args():
 
 
 def main(args):
-
     if args.seed is not None:
         paddle.seed(args.seed)
         np.random.seed(args.seed)
