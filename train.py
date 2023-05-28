@@ -25,7 +25,7 @@ from paddleseg.core import train
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 config_file = '/home/duycuong/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
-batch_size = 8
+batch_size = 4
 do_eval= True
 
 def parse_args():
@@ -85,8 +85,7 @@ def parse_args():
         '--do_eval',
         dest='do_eval',
         help='Eval while training',
-        default = do_eval,
-        action='store_true')
+        default = do_eval)
     parser.add_argument(
         '--log_iters',
         dest='log_iters',
