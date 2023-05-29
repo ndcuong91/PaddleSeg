@@ -3,10 +3,10 @@ iters: 10000
 
 train_dataset:
   type: Dataset
-  dataset_root: /home/duycuong/PycharmProjects/PaddleSeg/data/golf_header
+  dataset_root: data/golf_header
   num_classes: 3
   mode: train
-  train_path: /home/duycuong/PycharmProjects/PaddleSeg/data/golf_header/train.txt
+  train_path: data/golf_header/train.txt
   transforms:
     - type: ResizeStepScaling
       min_scale_factor: 0.5
@@ -23,10 +23,10 @@ train_dataset:
 
 val_dataset:
   type: Dataset
-  dataset_root: /home/duycuong/PycharmProjects/PaddleSeg/data/golf_header
+  dataset_root: data/golf_header
   num_classes: 3
   mode: val
-  val_path: /home/duycuong/PycharmProjects/PaddleSeg/data/golf_header/val.txt
+  val_path: data/golf_header/val.txt
   transforms:
     - type: Normalize
 

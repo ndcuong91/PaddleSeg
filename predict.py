@@ -22,31 +22,35 @@ from paddleseg.utils import get_sys_env, logger, get_image_list
 from paddleseg.core import predict
 from paddleseg.transforms import Compose
 
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
+model_path = 'output/best_model/model.pdparams'
+image_path = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf1'
+save_dir = 'output/result'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model prediction')
 
     # params of prediction
     parser.add_argument(
-        "--config", dest="cfg", help="The config file.", default=None, type=str)
+        "--config", dest="cfg", help="The config file.", default=config_file, type=str)
     parser.add_argument(
         '--model_path',
         dest='model_path',
         help='The path of model for prediction',
         type=str,
-        default=None)
+        default=model_path)
     parser.add_argument(
         '--image_path',
         dest='image_path',
         help='The image to predict, which can be a path of image, or a file list containing image paths, or a directory including images',
         type=str,
-        default=None)
+        default=image_path)
     parser.add_argument(
         '--save_dir',
         dest='save_dir',
         help='The directory for saving the predicted results',
         type=str,
-        default='./output/result')
+        default=save_dir)
 
     # augment for prediction
     parser.add_argument(
