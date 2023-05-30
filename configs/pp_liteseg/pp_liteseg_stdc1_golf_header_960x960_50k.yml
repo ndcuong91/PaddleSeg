@@ -1,16 +1,18 @@
 batch_size: 4  # total: 4*6
-iters: 10000
+iters: 50000
 
 train_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf-scorecard-header-segmentation/golf_header
+  dataset_root: /kaggle/input/golf_header
   num_classes: 3
   mode: train
-  train_path: /kaggle/input/golf-scorecard-header-segmentation/golf_header/train.txt
+  train_path: /kaggle/input/golf_header/train.txt
   transforms:
+    - type: RandomAffine
+      max_rotation: 180
     - type: ResizeStepScaling
-      min_scale_factor: 0.5
-      max_scale_factor: 2.5
+      min_scale_factor: 0.75
+      max_scale_factor: 1.5
       scale_step_size: 0.25
     - type: RandomPaddingCrop
       crop_size: [960, 960]
@@ -19,18 +21,17 @@ train_dataset:
       brightness_range: 0.5
       contrast_range: 0.5
       saturation_range: 0.5
-    - type: RandomRotation
-      max_rotation: 180
-      im_padding_value: (255,255,255)
-      label_padding_value: 0
+    - type: RandomBlur
+      prob: 0.5
+      blur_type: random
     - type: Normalize
 
 val_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf-scorecard-header-segmentation/golf_header
+  dataset_root: /kaggle/input/golf_header
   num_classes: 3
   mode: val
-  val_path: /kaggle/input/golf-scorecard-header-segmentation/golf_header/val.txt
+  val_path: /kaggle/input/golf_header/val.txt
   transforms:
     - type: Normalize
 
@@ -44,7 +45,7 @@ lr_scheduler:
   learning_rate: 0.01
   end_lr: 0
   power: 0.9
-  warmup_iters: 200
+  warmup_iters: 1000
   warmup_start_lr: 1.0e-5
 
 loss:

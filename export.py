@@ -21,6 +21,10 @@ import yaml
 from paddleseg.cvlibs import Config
 from paddleseg.utils import logger
 
+config = '/home/misa/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
+model_path = 'output/best_model/model.pdparams'
+save_dir = 'output/golf_header_model'
+input_shape = [1,3,720,960]
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model export.')
@@ -29,21 +33,20 @@ def parse_args():
         "--config",
         dest="cfg",
         help="The config file.",
-        default=None,
-        type=str,
-        required=True)
+        default=config,
+        type=str)
     parser.add_argument(
         '--save_dir',
         dest='save_dir',
         help='The directory for saving the exported model',
         type=str,
-        default='./output')
+        default=save_dir)
     parser.add_argument(
         '--model_path',
         dest='model_path',
         help='The path of model for export',
         type=str,
-        default=None)
+        default=model_path)
     parser.add_argument(
         '--without_argmax',
         dest='without_argmax',
@@ -59,7 +62,7 @@ def parse_args():
         nargs='+',
         help="Export the model with fixed input shape, such as 1 3 1024 1024.",
         type=int,
-        default=None)
+        default=input_shape)
 
     return parser.parse_args()
 
@@ -107,6 +110,7 @@ def main(args):
         shape = [None, 3, None, None]
     else:
         shape = args.input_shape
+    print('shape', shape)
 
     if not args.without_argmax or args.with_softmax:
         new_net = SavedSegmentationNet(net, args.without_argmax,
