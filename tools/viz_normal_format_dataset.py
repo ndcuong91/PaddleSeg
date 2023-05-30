@@ -243,32 +243,46 @@ def visualize_normal_format_dataset(img_dir, ann_dir, viz_dir=None):
         [150, 30, 250],
         [60, 200, 60]
     ]
-    ext = ['jpg', 'jpeg', 'png', 'JPG', 'PNG']
+    ext = ['jpg', 'jpeg', 'png', 'JPG', 'PNG', 'JPEG']
     list_images = get_list_file_in_folder(img_dir, ext=ext)
     list_images = sorted(list_images)
+
+    if viz_dir is not None:
+        color_viz_dir = os.path.join(viz_dir, 'added_anno')
+        if not os.path.exists(color_viz_dir): os.makedirs(color_viz_dir)
+        pseudo_viz_dir = os.path.join(viz_dir, 'pseudo_color')
+        if not os.path.exists(pseudo_viz_dir): os.makedirs(pseudo_viz_dir)
     for idx, file in enumerate(list_images):
         print(idx, file)
-        # if idx <200:
+        # if idx <0:
         #     continue
-        img_path = os.path.join(img_dir, file)
-        for e in ext:
-            file = file.replace('.' + e, '.png')
-        ann_path = os.path.join(ann_dir, file)
-        if not os.path.exists(ann_path):
-            print('Anno file not exist!')
-            continue
+        try:
+            img_path = os.path.join(img_dir, file)
+            for e in ext:
+                file = file.replace('.' + e, '.png')
+            ann_path = os.path.join(ann_dir, file)
+            if not os.path.exists(ann_path):
+                print('Anno file not exist!')
+                continue
 
-        img_data = cv2.imread(img_path)
-        ann_data = np.asarray(PIL.Image.open(ann_path))
-        out_file = None
-        if viz_dir is not None:
-            out_file = os.path.join(viz_dir, file)
-        show_result(
-            img_data,
-            [ann_data],
-            palette=PALETTE,
-            show=True,
-            out_file=out_file)
+            img_data = cv2.imread(img_path)
+            black_data = np.zeros((img_data.shape[0], img_data.shape[1], 3), dtype=np.uint8)
+            ann_data = np.asarray(PIL.Image.open(ann_path))
+            show_result(
+                img_data,
+                [ann_data],
+                palette=PALETTE,
+                show=True,
+                out_file=os.path.join(color_viz_dir, file))
+            show_result(
+                black_data,
+                [ann_data],
+                palette=PALETTE,
+                show=True,
+                out_file=os.path.join(pseudo_viz_dir, file))
+        except:
+            print('error'+50*'!')
+
 
 
 if __name__ == '__main__':
@@ -282,9 +296,10 @@ if __name__ == '__main__':
     # dst_anno_dir='/data_backup/cuongnd/mmseg/doc_seg/imgs/test'
     # convert_all_imgs_to_jpg(src_anno_dir,dst_anno_dir)
 
-    img_dir = '/home/duycuong/PycharmProjects/PaddleSeg/data/golf_header_segmentation/images'
-    ann_dir = '/home/duycuong/PycharmProjects/PaddleSeg/data/golf_header_segmentation/anno/images'
-    viz_dir = '/home/duycuong/PycharmProjects/PaddleSeg/data/golf_header_segmentation/viz'
+    img_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/images'
+    ann_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/labels'
+    viz_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/viz'
+    if not os.path.exists(viz_dir): os.makedirs(viz_dir)
     visualize_normal_format_dataset(img_dir=img_dir,
                                     ann_dir=ann_dir,
                                     viz_dir=viz_dir)

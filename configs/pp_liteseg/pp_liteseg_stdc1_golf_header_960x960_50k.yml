@@ -3,10 +3,10 @@ iters: 50000
 
 train_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf_header
+  dataset_root: /kaggle/input/golf-header-v2
   num_classes: 3
   mode: train
-  train_path: /kaggle/input/golf_header/train.txt
+  train_path: /kaggle/input/golf-header-v2/train.txt
   transforms:
     - type: RandomAffine
       max_rotation: 180
@@ -28,10 +28,10 @@ train_dataset:
 
 val_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf_header
+  dataset_root: /kaggle/input/golf-header-v2
   num_classes: 3
   mode: val
-  val_path: /kaggle/input/golf_header/val.txt
+  val_path: /kaggle/input/golf-header-v2/val.txt
   transforms:
     - type: Normalize
 

@@ -30,7 +30,7 @@ def parse_args():
     parser.add_argument(
         'labels_dir_name', help='the directory name of labels', type=str)
     parser.add_argument(
-        '--split', help='', nargs=3, type=float, default=[0.7, 0.3, 0])
+        '--split', help='', nargs=3, type=float, default=[0.9, 0.1, 0])
     parser.add_argument(
         '--separator',
         dest='separator',
