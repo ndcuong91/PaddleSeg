@@ -21,10 +21,10 @@ import yaml
 from paddleseg.cvlibs import Config
 from paddleseg.utils import logger
 
-config = '/home/misa/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
+config = 'configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x960_20k.yml'
 model_path = 'output/best_model/model.pdparams'
 save_dir = 'output/golf_header_model'
-input_shape = [1,3,720,960]
+input_shape = [1,3,960,960]
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model export.')
