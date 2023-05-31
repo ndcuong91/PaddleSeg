@@ -1,5 +1,5 @@
 batch_size: 4  # total: 4*6
-iters: 50000
+iters: 20000
 
 train_dataset:
   type: Dataset
@@ -8,8 +8,7 @@ train_dataset:
   mode: train
   train_path: /kaggle/input/golf-header-v2/train.txt
   transforms:
-    - type: RandomAffine
-      max_rotation: 180
+    - type: RandomRotation90
     - type: ResizeStepScaling
       min_scale_factor: 0.75
       max_scale_factor: 1.5

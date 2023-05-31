@@ -849,6 +849,28 @@ class RandomRotation:
 
 
 @manager.TRANSFORMS.add_component
+class RandomRotation90:
+    """
+    Rotate an image 90,180,270
+
+    """
+    def __init__(self):
+        self.min_scale = 1
+
+    def __call__(self, data):
+        rotate_list = [cv2.ROTATE_90_COUNTERCLOCKWISE, cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_180, None]
+        rotate_type = random.choice(rotate_list)
+        print('RandomRotation90. rotate_type', rotate_type)
+
+        if rotate_type is not None:
+            data['img'] = cv2.rotate(data['img'], rotate_type)
+
+            for key in data.get('gt_fields', []):
+                data[key] = cv2.rotate(data[key], rotate_type)
+
+        return data
+
+@manager.TRANSFORMS.add_component
 class RandomScaleAspect:
     """
     Crop a sub-image from an original image with a range of area ratio and aspect and

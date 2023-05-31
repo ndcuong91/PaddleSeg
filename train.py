@@ -24,7 +24,7 @@ from paddleseg.core import train
 # os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-config_file = '/home/duycuong/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x720_10k.yml'
+config_file = '/home/misa/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x960_50k.yml'
 batch_size = 4
 do_eval= True
 
