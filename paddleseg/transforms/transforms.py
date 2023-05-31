@@ -860,7 +860,7 @@ class RandomRotation90:
     def __call__(self, data):
         rotate_list = [cv2.ROTATE_90_COUNTERCLOCKWISE, cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_180, None]
         rotate_type = random.choice(rotate_list)
-        print('RandomRotation90. rotate_type', rotate_type)
+        # print('RandomRotation90. rotate_type', rotate_type)
 
         if rotate_type is not None:
             data['img'] = cv2.rotate(data['img'], rotate_type)
