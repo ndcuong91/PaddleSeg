@@ -24,9 +24,10 @@ from paddleseg.core import train
 # os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-config_file = '/home/misa/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x960_50k.yml'
+config_file = '/home/duycuong/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc2_golf_header_960x960_20k.yml'
 batch_size = 4
 do_eval= True
+resume_model = 'output/iter_13000'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
@@ -62,7 +63,7 @@ def parse_args():
         dest='resume_model',
         help='The path of resume model',
         type=str,
-        default=None)
+        default=resume_model)
     parser.add_argument(
         '--save_dir',
         dest='save_dir',
@@ -90,7 +91,7 @@ def parse_args():
         '--log_iters',
         dest='log_iters',
         help='Display logging information at every log_iters',
-        default=10,
+        default=100,
         type=int)
     parser.add_argument(
         '--use_vdl',
