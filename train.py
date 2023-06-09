@@ -14,20 +14,17 @@
 
 import argparse
 import random
-
 import paddle, os
 import numpy as np
 
 from paddleseg.cvlibs import manager, Config
 from paddleseg.utils import get_sys_env, logger, config_check
 from paddleseg.core import train
-# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-config_file = '/home/duycuong/PycharmProjects/PaddleSeg/configs/pp_liteseg/pp_liteseg_stdc2_golf_header_960x960_20k.yml'
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_golf_header_960x960_20k.yml'
 batch_size = 4
 do_eval= True
-resume_model = 'output/iter_13000'
+resume_model = None
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')

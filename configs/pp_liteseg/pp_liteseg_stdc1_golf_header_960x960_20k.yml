@@ -3,10 +3,10 @@ iters: 20000
 
 train_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf-header-v2
+  dataset_root: /home/misa/cuongnd/PaddleSeg/data/golf-header-v2
   num_classes: 3
   mode: train
-  train_path: /kaggle/input/golf-header-v2/train.txt
+  train_path: /home/misa/cuongnd/PaddleSeg/data/golf-header-v2/train.txt
   transforms:
     - type: RandomRotation90
     - type: ResizeStepScaling
@@ -27,10 +27,10 @@ train_dataset:
 
 val_dataset:
   type: Dataset
-  dataset_root: /kaggle/input/golf-header-v2
+  dataset_root: /home/misa/cuongnd/PaddleSeg/data/golf-header-v2
   num_classes: 3
   mode: val
-  val_path: /kaggle/input/golf-header-v2/val.txt
+  val_path: /home/misa/cuongnd/PaddleSeg/data/golf-header-v2/val.txt
   transforms:
     - type: Normalize
 

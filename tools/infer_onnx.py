@@ -377,7 +377,7 @@ def segment_src(input_src, output_dir, debug=False):
         file = os.path.basename(img_path)
         print(idx, file)
         img_cv = cv2.imread(img_path)
-        list_calibed_imgs = segment_and_rotate_img(img_cv, debug=debug)
+        # list_calibed_imgs = segment_and_rotate_img(img_cv, debug=debug)
 
         # for jdx, img_calibed in enumerate(list_calibed_imgs):
         #     cv2.imwrite(os.path.join(output_dir, '.'.join(file.split('.')[:-1]) + '_' + str(jdx) + '.jpg'), img_calibed)
@@ -385,7 +385,7 @@ def segment_src(input_src, output_dir, debug=False):
     print('avg inf time', 1000 * (end - begin) / len(list_files))
 
 # from sanity_check.config.config_all import weight_dir
-onnx_model = Segment_onnx(os.path.join('/home/misa/PycharmProjects/PaddleSeg/output/golf_header_model/model.onnx'),input_size=(960, 960))
+onnx_model = Segment_onnx(os.path.join('/home/misa/PycharmProjects/PaddleSeg/output/golf_header_model/iter_13k.onnx'),input_size=(960, 960))
 
 if __name__ == '__main__':
     input_src = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf3/imgs'

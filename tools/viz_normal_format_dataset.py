@@ -284,7 +284,6 @@ def visualize_normal_format_dataset(img_dir, ann_dir, viz_dir=None):
             print('error'+50*'!')
 
 
-
 if __name__ == '__main__':
     # split_dataset(img_dir='/data4T/cuongnd/dataset/publaynet_split1/img_dir/train',
     #               ann_dir='/data4T/cuongnd/dataset/publaynet_split1/ann_dir/train_3classes',
@@ -296,9 +295,9 @@ if __name__ == '__main__':
     # dst_anno_dir='/data_backup/cuongnd/mmseg/doc_seg/imgs/test'
     # convert_all_imgs_to_jpg(src_anno_dir,dst_anno_dir)
 
-    img_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/images'
-    ann_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/labels'
-    viz_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf_header/viz'
+    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/imgs'
+    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/anno'
+    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/viz'
     if not os.path.exists(viz_dir): os.makedirs(viz_dir)
     visualize_normal_format_dataset(img_dir=img_dir,
                                     ann_dir=ann_dir,
