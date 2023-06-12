@@ -21,10 +21,11 @@ from paddleseg.cvlibs import manager, Config
 from paddleseg.utils import get_sys_env, logger, config_check
 from paddleseg.core import train
 
-config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_golf_header_960x960_20k.yml'
-batch_size = 4
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_960x960_20k.yml'
+batch_size = 8
 do_eval= True
 resume_model = None
+save_interval = 1000
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
@@ -54,7 +55,7 @@ def parse_args():
         dest='save_interval',
         help='How many iters to save a model snapshot once during training.',
         type=int,
-        default=1000)
+        default=save_interval)
     parser.add_argument(
         '--resume_model',
         dest='resume_model',

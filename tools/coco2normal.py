@@ -14,12 +14,12 @@ coco dataset should have structure likes
 └── result.json
 '''
 
-coco_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg2'
+coco_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg3'
 coco_anno_path = os.path.join(coco_dir, 'result.json')
 
-save_img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg2/images_jpg'
+save_img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg3/images_jpg'
 if not os.path.exists(save_img_dir): os.makedirs(save_img_dir)
-save_anno_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg2/labels'
+save_anno_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg3/labels'
 if not os.path.exists(save_anno_dir): os.makedirs(save_anno_dir)
 
 
@@ -37,9 +37,9 @@ def coco2normal(resize_width = 1200):
         img_extention = '.'+ img['file_name'].split('.')[-1]
         img_basename = os.path.basename(img['file_name'])
         print(idx, img_path)
-        #image = np.array(Image.open(img_path))
+        image = np.array(Image.open(img_path))
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-        image = cv2.imread(img_path)
         # plt.imshow(image, interpolation='nearest')
         # plt.show()
         # plt.imshow(image)

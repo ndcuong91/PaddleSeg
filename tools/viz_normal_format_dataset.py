@@ -4,34 +4,7 @@ import random, shutil
 import PIL.Image
 import mmcv
 import warnings
-
-
-def get_list_file_in_folder(dir, ext=['jpg', 'png', 'JPG', 'PNG']):
-    included_extensions = ext
-    file_names = [fn for fn in os.listdir(dir)
-                  if any(fn.endswith(ext) for ext in included_extensions)]
-    return file_names
-
-
-def get_list_dir_in_folder(dir):
-    sub_dir = [o for o in os.listdir(dir) if os.path.isdir(os.path.join(dir, o))]
-    return sub_dir
-
-
-def get_list_file_in_dir_and_subdirs(folder, ext=['jpg', 'png', 'JPG', 'PNG']):
-    file_names = []
-    for path, subdirs, files in os.walk(folder):
-        for name in files:
-            extension = os.path.splitext(name)[1].replace('.', '')
-            if extension in ext:
-                file_names.append(os.path.join(path, name).replace(folder, '')[1:])
-                # print(os.path.join(path, name).replace(folder,'')[1:])
-    return file_names
-
-
-def get_list_dir_and_subdirs_in_folder(folder):
-    list_dir = [x[0].replace(folder, '').lstrip('/') for x in os.walk(folder)]
-    return list_dir
+from common import get_list_file_in_folder
 
 
 def convert_anno_detection_to_segmentation(img_dir, anno_det_dir, output_anno_segment_dir, extend=-1,
@@ -295,9 +268,9 @@ if __name__ == '__main__':
     # dst_anno_dir='/data_backup/cuongnd/mmseg/doc_seg/imgs/test'
     # convert_all_imgs_to_jpg(src_anno_dir,dst_anno_dir)
 
-    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/imgs'
-    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/anno'
-    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/train/viz'
+    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/images'
+    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/anno'
+    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/viz'
     if not os.path.exists(viz_dir): os.makedirs(viz_dir)
     visualize_normal_format_dataset(img_dir=img_dir,
                                     ann_dir=ann_dir,
