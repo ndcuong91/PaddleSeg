@@ -21,11 +21,13 @@ from paddleseg.cvlibs import manager, Config
 from paddleseg.utils import get_sys_env, logger, config_check
 from paddleseg.core import train
 
-config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_960x960_20k.yml'
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_768x768_20k.yml'
 batch_size = 8
 do_eval= True
 resume_model = None
 save_interval = 1000
+output_dir ='output/ekyc_doc_rot_768'
+if not os.path.exists(output_dir): os.makedirs(output_dir)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model training')
@@ -67,7 +69,7 @@ def parse_args():
         dest='save_dir',
         help='The directory for saving the model snapshot',
         type=str,
-        default='./output')
+        default=output_dir)
     parser.add_argument(
         '--keep_checkpoint_max',
         dest='keep_checkpoint_max',

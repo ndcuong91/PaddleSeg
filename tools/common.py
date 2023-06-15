@@ -24,7 +24,6 @@ def get_list_file_in_dir_and_subdirs(folder, ext=['jpg', 'png', 'JPG', 'PNG']):
                 # print(os.path.join(path, name).replace(folder,'')[1:])
     return file_names
 
-
 def get_list_dir_and_subdirs_in_folder(folder):
     list_dir = [x[0].replace(folder, '').lstrip('/') for x in os.walk(folder)]
     return list_dir
@@ -37,8 +36,6 @@ def resize_normalize(img, normalize_width=1000, interpolate = True):
         resize_ratio = normalize_width / w
         normalize_height = round(h * resize_ratio)
         resize_img = cv2.resize(img, (normalize_width, normalize_height), interpolation=interpolate_mode)
-        # cv2.imshow('resize img', resize_img)
-        # cv2.waitKey(0)
         return resize_img, resize_ratio
     else:
         return img, 1.0

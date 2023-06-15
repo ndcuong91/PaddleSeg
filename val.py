@@ -21,6 +21,8 @@ from paddleseg.cvlibs import manager, Config
 from paddleseg.core import evaluate
 from paddleseg.utils import get_sys_env, logger, config_check, utils
 
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_768x768_20k.yml'
+model_path = 'output/ekyc_doc_rot_768/best_model/model.pdparams'
 
 def get_test_config(cfg, args):
 
@@ -44,13 +46,13 @@ def parse_args():
 
     # params of evaluate
     parser.add_argument(
-        "--config", dest="cfg", help="The config file.", default=None, type=str)
+        "--config", dest="cfg", help="The config file.", default=config_file, type=str)
     parser.add_argument(
         '--model_path',
         dest='model_path',
         help='The path of model for evaluation',
         type=str,
-        default=None)
+        default=model_path)
     parser.add_argument(
         '--num_workers',
         dest='num_workers',

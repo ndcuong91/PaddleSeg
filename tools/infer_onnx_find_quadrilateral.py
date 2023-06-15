@@ -1,3 +1,4 @@
+import argparse
 import os
 import numpy as np
 import cv2
@@ -6,6 +7,8 @@ from random import random
 import time
 
 from PIL import Image
+
+input_size = (960,960)
 
 def normalize(im, mean, std):
     im = im.astype(np.float32, copy=False) / 255.0
@@ -181,7 +184,7 @@ class Segment_onnx:
         return output_mask
 
 
-def get_list_file_in_folder(dir, ext=['jpg', 'png', 'JPG', 'PNG','jpeg','JPEG']):
+def get_list_file_in_folder(dir, ext=['jpg', 'png', 'JPG', 'PNG']):
     included_extensions = ext
     file_names = [fn for fn in os.listdir(dir)
                   if any(fn.endswith(ext) for ext in included_extensions)]
@@ -213,8 +216,31 @@ def order_points(pts, vertical=False):
         rect[3] = pts[np.argmax(diff)]
     return rect
 
+def get_smallest_polygon_of_contour(cnt, sw, sh, size_min):
+    '''
 
-def find_quadrilateral(img_ori, mask, sw, sh, debug=False, max_object=1):
+    :param cnt:
+    :return:
+    '''
+    x, y, w, h = cv2.boundingRect(cnt)
+    print('w', w * sw, ', h', h * sh)
+    if (w > size_min and h > size_min):
+        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        list_point = approx[:, 0]
+        list_point = list_point.astype('float32')
+        if len(list_point) == 4:
+            for p in list_point:
+                p[0] *= sw
+                p[1] *= sh
+            vertical = False
+            if w * sw < h * sh: vertical = True
+            quad = order_points(list_point, vertical=vertical)  # Sort lại rect theo thứ tự left top, right top...
+            return True, quad.astype('int')
+    print('find_quadrilateral. Failed!')
+    return False, None
+
+
+def find_quadrilateral(img_ori, mask, sw, sh, debug=False, max_object=2):
     '''
     Tìm tứ giác bao quanh mask đã được segment
     :param img_ori: anh goc
@@ -227,7 +253,6 @@ def find_quadrilateral(img_ori, mask, sw, sh, debug=False, max_object=1):
     '''
     list_quads = []
     img = mask
-    size_min = min(img.shape[0], img.shape[1])
     major = cv2.__version__.split('.')[0]
     if major == '3':
         _, contours, he = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
@@ -236,71 +261,22 @@ def find_quadrilateral(img_ori, mask, sw, sh, debug=False, max_object=1):
 
     list_contours = [f for f in contours]
     list_contours.sort(key=lambda x: x.size, reverse=True)
-    # list_contours = list_contours[:max_object]
+    list_contours = list_contours[:max_object]
 
-    # img_contours = np.zeros(img_ori.shape)
-    # # draw the contours on the empty image
-    # cv2.drawContours(img_contours, contours, -1, (0, 255, 0), 3)
-
-    # rect = cv2.minAreaRect(c)
-    # box = cv2.boxPoints(rect)
-    # box = np.int0(box)
-    #
-    # # Convert image to BGR (just for drawing a green rectangle on it).
-    # bgr_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    #
-    # cv2.drawContours(bgr_img, [box], 0, (0, 255, 0), 2)
-    #
-    # # Show images for debugging
-    # cv2.imshow('bgr_img', bgr_img)
-    # cv2.waitKey()
-
-    thickness = int(img_ori.shape[1]/400)
     for cnt in list_contours:
-        rect = cv2.minAreaRect(cnt)
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-
-        # Convert image to BGR (just for drawing a green rectangle on it).
-        # bgr_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-
-        cv2.drawContours(img_ori, [box], 0, (255, 0, 0), thickness)
-
-    # Show images for debugging
-    img_show = cv2.resize(img_ori, (800, 800))
-    cv2.imshow('img show', img_show)
-    cv2.waitKey(0)
-
-
-        # x, y, w, h = cv2.boundingRect(cnt)
-        # print('w', w * sw, ', h', h * sh)
-        # if (w > size_min / 500 and h > size_min / 500):
-        #     approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
-        #     list_point = approx[:, 0]
-        #     list_point = list_point.astype('float32')
-        #     for p in list_point:
-        #         p[0] *= sw
-        #         p[1] *= sh
-        #
-        #     vertical = False
-        #     if w * sw < h * sh: vertical = True
-        #     quad = order_points(list_point, vertical=vertical)  # Sort lại rect theo thứ tự left top, right top...
-        #     quad = quad.astype('int')
-        #     list_quads.append(quad)
-        #     if debug:
-        #         for i in range(0, quad.shape[0] - 1):
-        #             cv2.line(img_ori, (quad[i][0], quad[i][1]),
-        #                      (quad[i + 1][0], quad[i + 1][1]), (0, 0, 255), 3)
-        #         cv2.line(img_ori, (quad[0][0], quad[0][1]),
-        #                  (quad[quad.shape[0] - 1][0], quad[quad.shape[0] - 1][1]), (0, 0, 255), 3)
-        #         img_show = cv2.resize(img_ori, (800, 800))
-        #         cv2.imshow('res', img_show)
-        #         cv2.imshow('img ori', img_ori)
-        #         # cv2.waitKey(0)
-        #
-        #     if len(list_point) != 4:
-        #         print('find_quadrilateral. Failed!')
-        #         return None
+        status, quad = get_smallest_polygon_of_contour(cnt, sw, sh, min(img.shape[0], img.shape[1])/5)
+        if status:
+            list_quads.append(quad)
+            if debug:
+                for i in range(0, quad.shape[0] - 1):
+                    cv2.line(img_ori, (quad[i][0], quad[i][1]),
+                             (quad[i + 1][0], quad[i + 1][1]), (0, 0, 255), 3)
+                cv2.line(img_ori, (quad[0][0], quad[0][1]),
+                         (quad[quad.shape[0] - 1][0], quad[quad.shape[0] - 1][1]), (0, 0, 255), 3)
+                img_show = cv2.resize(img_ori, (800, 800))
+                cv2.imshow('res', img_show)
+                cv2.imshow('img ori', img_ori)
+                # cv2.waitKey(0)
 
     list_quads.sort(key=lambda x: (x[0][0], x[0][1]))
     return list_quads
@@ -312,13 +288,13 @@ def transform_img(image, quad, size, dst):
     return trans_img
 
 
-# config_transform = {'idcard': [np.array([800, 504]),
-#                                np.array([[21, 22], [779, 22], [779, 482], [21, 482]], dtype="float32")]}
+config_transform = {'idcard': [np.array([800, 504]),
+                               np.array([[21, 22], [779, 22], [779, 482], [21, 482]], dtype="float32")]}
 
 
-def segment_and_rotate_img(input_img: np.ndarray, debug: bool) -> np.ndarray:
+def segment_img(input_img, debug = False):
     '''
-    segment vùng header trong ảnh phiếu ghi điểm golf và trả về ảnh đã được xoay lại cho thẳng
+    segment ảnh chứa idcard và trả về ảnh idcard đã được calib
     :param input_img: opencv img
     :return: list của opencv img đã được căn chỉnh lại
     '''
@@ -326,33 +302,31 @@ def segment_and_rotate_img(input_img: np.ndarray, debug: bool) -> np.ndarray:
     mask_img = onnx_model.inference(input_img)
     mask_img = mask_img[0][0].astype('uint8')
 
-    mask_img[mask_img == 2] = 255
-    mask_img = cv2.resize(mask_img, (input_img.shape[1], input_img.shape[0]))
-    # mask_img[mask_img == 2] = 255
+    mask_img[mask_img == 1] = 255
 
     # if debug:
-    #     mask_img = cv2.resize(mask_img, (input_img.shape[1],input_img.shape[0]))
     #     cv2.imshow('mask', mask_img)
     #     cv2.waitKey(0)
 
     sw, sh = input_img.shape[1] / mask_img.shape[1], input_img.shape[0] / mask_img.shape[0]
-    list_quads = find_quadrilateral(input_img, mask_img, sw=sw, sh=sh, debug=debug)
-    #
-    # list_calibed_imgs = []
-    # if list_quads is None: return list_calibed_imgs
-    #
-    # for jdx, quad in enumerate(list_quads):
-    #     draw_im = input_img.copy()
-    #     for p in quad:
-    #         cv2.circle(draw_im, (p[0], p[1]), 3, (0, 0, 255), -1)
-    #     img_calibed = transform_img(input_img, quad, config_transform['idcard'][0], config_transform['idcard'][1])
-    #     list_calibed_imgs.append(img_calibed)
-    #
-    #     if debug:
-    #         cv2.imshow('draw img', draw_im)
-    #         cv2.imshow('calib', img_calibed)
-    #         cv2.waitKey(0)
-    return input_img
+    list_quads = find_quadrilateral(input_img, mask_img, sw=sw, sh=sh, debug=False)
+
+    list_calibed_imgs = []
+    if list_quads is None: return list_calibed_imgs
+
+    for jdx, quad in enumerate(list_quads):
+        draw_im = input_img.copy()
+        for p in quad:
+            cv2.circle(draw_im, (p[0], p[1]), 3, (0, 0, 255), -1)
+        img_calibed = transform_img(input_img, quad, config_transform['idcard'][0], config_transform['idcard'][1])
+        list_calibed_imgs.append(img_calibed)
+
+        if debug:
+            cv2.imshow('draw img', draw_im)
+            cv2.imshow('calib', img_calibed)
+            cv2.waitKey(0)
+
+    return list_calibed_imgs
 
 
 def segment_src(input_src, output_dir, debug=False):
@@ -377,19 +351,19 @@ def segment_src(input_src, output_dir, debug=False):
         file = os.path.basename(img_path)
         print(idx, file)
         img_cv = cv2.imread(img_path)
-        # list_calibed_imgs = segment_and_rotate_img(img_cv, debug=debug)
+        list_calibed_imgs = segment_img(img_cv, debug=debug)
 
-        # for jdx, img_calibed in enumerate(list_calibed_imgs):
-        #     cv2.imwrite(os.path.join(output_dir, '.'.join(file.split('.')[:-1]) + '_' + str(jdx) + '.jpg'), img_calibed)
+        for jdx, img_calibed in enumerate(list_calibed_imgs):
+            cv2.imwrite(os.path.join(output_dir, '.'.join(file.split('.')[:-1]) + '_' + str(jdx) + '.jpg'), img_calibed)
     end = time.time()
     print('avg inf time', 1000 * (end - begin) / len(list_files))
 
-# from sanity_check.config.config_all import weight_dir
-onnx_model = Segment_onnx(os.path.join('/home/misa/PycharmProjects/PaddleSeg/output/golf_header_model/iter_13k.onnx'),input_size=(960, 960))
+onnx_model = Segment_onnx('/home/misa/PycharmProjects/PaddleSeg/output/ekyc_doc_rot/best_model/doc_seg1306_0.92mIoU.onnx',
+                          input_size=input_size)
 
 if __name__ == '__main__':
-    input_src = '/home/misa/PycharmProjects/MISA.ScoreCard/data/golf3/imgs'
-    output_dir = '/home/misa/PycharmProjects/MISA.ScoreCard/data/res'
+    input_src = '/home/misa/PycharmProjects/MISA.eKYC2/data/esign_ekyc_data/testset_1000/images'
+    output_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/esign_ekyc_data/testset_1000/warp_imgs'
     segment_src(input_src=input_src,
                 output_dir=output_dir,
                 debug=True)

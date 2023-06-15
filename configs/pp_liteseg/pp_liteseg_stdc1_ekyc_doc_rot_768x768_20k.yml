@@ -14,7 +14,7 @@ train_dataset:
       max_scale_factor: 1.5
       scale_step_size: 0.25
     - type: RandomPaddingCrop
-      crop_size: [960, 960]
+      crop_size: [768, 768]
     - type: RandomHorizontalFlip
     - type: RandomDistort
       brightness_range: 0.5
@@ -30,7 +30,7 @@ val_dataset:
   dataset_root: data/ekyc_doc_seg1234
   num_classes: 7
   mode: val
-  val_path: data/ekyc_doc_seg1234/test.txt
+  val_path: data/ekyc_doc_seg1234/val.txt
   transforms:
     - type: Normalize
 

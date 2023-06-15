@@ -180,8 +180,5 @@ if __name__ == '__main__':
     # anno_dir ='/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/trainval/anno2'
     # push_prediction_to_label_studio(proj_id, anno_dir, cls = ['back9','back12','backchip','front9','front12','frontchip'])
 
-
-
-
-    filter_data('/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg1234/images',
-                '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg1234/labels')
+    filter_data('/home/misa/PycharmProjects/MISA.eKYC2/data/esign_ekyc_data/testset_1000/doc_seg/images',
+                '/home/misa/PycharmProjects/MISA.eKYC2/data/esign_ekyc_data/testset_1000/doc_seg/labels')

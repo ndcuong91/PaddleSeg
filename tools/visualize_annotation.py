@@ -32,15 +32,19 @@ sys.path.append(os.path.abspath(os.path.join(__dir__, '../')))
 from paddleseg import utils
 from paddleseg.utils import logger, progbar, visualize
 
+file_path = '/home/misa/PycharmProjects/PaddleSeg/data/golf-header-v2/val.txt'
+pred_dir = '/home/misa/PycharmProjects/PaddleSeg/data/golf-header-v2/labels'
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Visualization')
     parser.add_argument(
         '--file_path',
         help='The file contains the path of origin and annotated images',
-        type=str)
+        type=str,
+        default=file_path)
     parser.add_argument(
-        '--pred_dir', help='the dir of predicted images', type=str)
+        '--pred_dir', help='the dir of predicted images', type=str, default=pred_dir)
     parser.add_argument(
         '--save_dir',
         help='The directory for saving the visualized images',

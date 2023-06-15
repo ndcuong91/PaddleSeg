@@ -19,16 +19,17 @@ import argparse
 import warnings
 import numpy as np
 
+dataset_root = ''
 
 def parse_args():
     parser = argparse.ArgumentParser(
         description='A tool for proportionally randomizing dataset to produce file lists.'
     )
-    parser.add_argument('dataset_root', help='the dataset root path', type=str)
+    parser.add_argument('dataset_root', help='the dataset root path', type=str, default=dataset_root)
     parser.add_argument(
-        'images_dir_name', help='the directory name of images', type=str)
+        'images_dir_name', help='the directory name of images', type=str, default='images')
     parser.add_argument(
-        'labels_dir_name', help='the directory name of labels', type=str)
+        'labels_dir_name', help='the directory name of labels', type=str, default = 'labels')
     parser.add_argument(
         '--split', help='', nargs=3, type=float, default=[0.9, 0.1, 0])
     parser.add_argument(
