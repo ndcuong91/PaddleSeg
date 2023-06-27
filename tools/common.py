@@ -14,7 +14,7 @@ def get_list_dir_in_folder(dir):
     return sub_dir
 
 
-def get_list_file_in_dir_and_subdirs(folder, ext=['jpg', 'png', 'JPG', 'PNG']):
+def get_list_file_in_dir_and_subdirs(folder, ext=['jpg', 'png', 'JPG', 'PNG', 'jpeg', 'JPEG']):
     file_names = []
     for path, subdirs, files in os.walk(folder):
         for name in files:
@@ -32,13 +32,12 @@ def resize_normalize(img, normalize_width=1000, interpolate = True):
     w = img.shape[1]
     h = img.shape[0]
     interpolate_mode = cv2.INTER_CUBIC if interpolate else cv2.INTER_NEAREST
+    resize_img, resize_ratio = img, 1.0
     if w>normalize_width:
         resize_ratio = normalize_width / w
         normalize_height = round(h * resize_ratio)
         resize_img = cv2.resize(img, (normalize_width, normalize_height), interpolation=interpolate_mode)
-        return resize_img, resize_ratio
-    else:
-        return img, 1.0
+    return resize_img, resize_ratio
 
 
 def rotate_by_exif_metadata(filepath: str) -> Image:

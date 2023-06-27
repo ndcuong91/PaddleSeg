@@ -27,10 +27,10 @@ train_dataset:
 
 val_dataset:
   type: Dataset
-  dataset_root: data/ekyc_doc_seg1234
+  dataset_root: data/ekyc_doc_seg1234/testset1000
   num_classes: 7
   mode: val
-  val_path: data/ekyc_doc_seg1234/test.txt
+  val_path: data/ekyc_doc_seg1234/testset1000/test.txt
   transforms:
     - type: Normalize
 

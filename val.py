@@ -21,8 +21,8 @@ from paddleseg.cvlibs import manager, Config
 from paddleseg.core import evaluate
 from paddleseg.utils import get_sys_env, logger, config_check, utils
 
-config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_768x768_20k.yml'
-model_path = 'output/ekyc_doc_rot_768/best_model/model.pdparams'
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_seg_960x960_20k.yml'
+model_path = 'output/ekyc_doc_seg_960/best_model/model.pdparams'
 
 def get_test_config(cfg, args):
 
