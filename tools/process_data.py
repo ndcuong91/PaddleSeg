@@ -104,10 +104,10 @@ if __name__=='__main__':
     # if not os.path.exists(output_dir): os.makedirs(output_dir)
     # create_doc_rot_test(input_dir, output_dir)
 
-    # split_train_val(input_img='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det1234/images',
-    #                 input_anno='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det1234/labels')
+    split_train_val(input_img='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det_4k6/images',
+                    input_anno='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det_4k6/labels')
 
-    convert_rgbgray('/home/misa/Downloads/project-55-at-2023-06-26-09-48-2a8e1279/labels_crop2')
+    # convert_rgbgray('/home/misa/Downloads/project-55-at-2023-06-26-09-48-2a8e1279/labels_crop2')
 
     # resize_all_data_in_dir('/home/haongnd/id_classification/original_data')
 

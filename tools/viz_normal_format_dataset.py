@@ -2,7 +2,7 @@ import os, cv2
 import numpy as np
 import random, shutil
 import PIL.Image
-import mmcv
+import mmcv, traceback
 import warnings
 from common import get_list_file_in_folder
 
@@ -254,7 +254,9 @@ def visualize_normal_format_dataset(img_dir, ann_dir, viz_dir=None):
                 show=True,
                 out_file=os.path.join(pseudo_viz_dir, file))
         except:
+            msg_detail = traceback.format_exc()
             print('error'+50*'!')
+            print(msg_detail)
 
 
 if __name__ == '__main__':
@@ -268,10 +270,11 @@ if __name__ == '__main__':
     # dst_anno_dir='/data_backup/cuongnd/mmseg/doc_seg/imgs/test'
     # convert_all_imgs_to_jpg(src_anno_dir,dst_anno_dir)
 
-    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/images'
-    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/anno'
-    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/idcard_segment/eKYC_doc_seg4/viz'
+    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/images'
+    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/anno'
+    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/viz'
     if not os.path.exists(viz_dir): os.makedirs(viz_dir)
     visualize_normal_format_dataset(img_dir=img_dir,
                                     ann_dir=ann_dir,
                                     viz_dir=viz_dir)
+

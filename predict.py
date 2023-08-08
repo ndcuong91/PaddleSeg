@@ -22,10 +22,10 @@ from paddleseg.utils import get_sys_env, logger, get_image_list
 from paddleseg.core import predict
 from paddleseg.transforms import Compose
 
-config_file = 'configs/pp_liteseg/pp_liteseg_stdc1_golf_header_960x960_20k.yml'
-model_path = 'output/best_model/model.pdparams'
-image_path = '/home/misa/PycharmProjects/MISA.ScoreCard_old/data/golf3'
-save_dir = 'output/result/golf3'
+config_file = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_rot_960x960_20k.yml'
+model_path = 'output/ekyc_doc_rot/best_model/model.pdparams'
+image_path = 'data/ekyc_doc_seg1234/testset1000/images'
+save_dir = 'output/ekyc_doc_rot/testset1000'
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model prediction')

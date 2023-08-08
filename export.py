@@ -21,10 +21,13 @@ import yaml
 from paddleseg.cvlibs import Config
 from paddleseg.utils import logger
 
-config = 'configs/pp_liteseg/pp_liteseg_stdc2_golf_header_960x960_20k.yml'
-model_path = '/home/misa/PycharmProjects/PaddleSeg/output/iter_13k_mIOU_0.93.pdparams'
-save_dir = 'output/golf_header_model'
-input_shape = [1,3,960,960]
+config = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_seg_512x512_30k.yml'
+model_path = 'output/ekyc_doc_seg_512/best_model/model.pdparams'
+save_dir = 'output/ekyc_doc_seg_512/best_model'
+if not os.path.exists(save_dir): os.makedirs(save_dir)
+input_shape = [1,3,512,512]
+
+#paddle2onnx --model_dir output/ekyc_doc_rot/best_model    --model_filename model.pdmodel --params_filename model.pdiparams   --opset_version 11  --save_file output/ekyc_doc_rot/best_model/doc_seg1306_0.92mIoU.onnx
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model export.')
