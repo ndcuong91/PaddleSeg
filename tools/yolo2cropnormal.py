@@ -41,10 +41,11 @@ def yoloseg2det(anno_dir,
     os.makedirs(output_yolo_det_img, exist_ok=True)
 
     #for segmentation
-    output_anno_dir = imgs_dir + '_anno_crop'
-    if not os.path.exists(output_anno_dir): os.makedirs(output_anno_dir)
-    output_imgs_dir = imgs_dir + '_imgs_crop'
-    if not os.path.exists(output_imgs_dir): os.makedirs(output_imgs_dir)
+    if save_crop_image_and_crop_anno:
+        output_anno_dir = imgs_dir + '_anno_crop'
+        if not os.path.exists(output_anno_dir): os.makedirs(output_anno_dir)
+        output_imgs_dir = imgs_dir + '_imgs_crop'
+        if not os.path.exists(output_imgs_dir): os.makedirs(output_imgs_dir)
     print('Generating dataset from:', anno_dir)
     total_count=0
     for idx, label_file in enumerate(list_anno):
@@ -90,7 +91,7 @@ def yoloseg2det(anno_dir,
 
                 if len(list_pts) > 2 and save_crop_image_and_crop_anno and imgs_dir is not None:
                     label_mask = shape2mask(img.shape[:2], list_pts)
-                    label[label_mask] = int(split_str[0]) + 1
+                    label[label_mask] = 1
                     extend = random.uniform(0.0, 0.1)
                     w, h = max_x - min_x, max_y - min_y
                     extend_x, extend_y = extend * w, extend * h
@@ -111,7 +112,7 @@ def yoloseg2det(anno_dir,
                 y_center = np.around((max_y+min_y)/(2*img_h), decimals=2)
                 w_relative = np.around((max_x-min_x)/img_w, decimals=2)
                 h_relative = np.around((max_y-min_y)/img_h, decimals=2)
-                save_line = ' '.join(['0',str(x_center), str(y_center), str(w_relative), str(h_relative)])
+                save_line = ' '.join([split_str[0],str(x_center), str(y_center), str(w_relative), str(h_relative)])
                 final_line.append(save_line)
 
             resize_img, _ = resize_normalize(img, 1000, interpolate=True)
@@ -128,8 +129,8 @@ def yoloseg2det(anno_dir,
 
 
 if __name__ == '__main__':
-    imgs_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/evaluation/ekyc_doc_seg/v2/images'
-    anno_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/evaluation/ekyc_doc_seg/v2/labels_seg'
+    imgs_dir = '/home/misa/Downloads/project-55-at-2023-08-07-03-58-2bfd95e6/images'
+    anno_dir = '/home/misa/Downloads/project-55-at-2023-08-07-03-58-2bfd95e6/labels_seg'
     yoloseg2det(anno_dir=anno_dir,
                 save_crop_image_and_crop_anno=True,
                 imgs_dir=imgs_dir,
