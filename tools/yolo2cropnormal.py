@@ -129,8 +129,8 @@ def yoloseg2det(anno_dir,
 
 
 if __name__ == '__main__':
-    imgs_dir = '/home/misa/Downloads/project-55-at-2023-08-07-03-58-2bfd95e6/images'
-    anno_dir = '/home/misa/Downloads/project-55-at-2023-08-07-03-58-2bfd95e6/labels_seg'
+    imgs_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/images'
+    anno_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/labels'
     yoloseg2det(anno_dir=anno_dir,
                 save_crop_image_and_crop_anno=True,
                 imgs_dir=imgs_dir,

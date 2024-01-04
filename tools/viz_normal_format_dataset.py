@@ -270,9 +270,9 @@ if __name__ == '__main__':
     # dst_anno_dir='/data_backup/cuongnd/mmseg/doc_seg/imgs/test'
     # convert_all_imgs_to_jpg(src_anno_dir,dst_anno_dir)
 
-    img_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/images'
-    ann_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/anno'
-    viz_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/check_quality/bongloa_che_20220630/train/viz'
+    img_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/images_imgs_crop'
+    ann_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/images_anno_crop'
+    viz_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/viz_segment'
     if not os.path.exists(viz_dir): os.makedirs(viz_dir)
     visualize_normal_format_dataset(img_dir=img_dir,
                                     ann_dir=ann_dir,

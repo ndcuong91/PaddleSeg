@@ -21,9 +21,9 @@ import yaml
 from paddleseg.cvlibs import Config
 from paddleseg.utils import logger
 
-config = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_seg_v3_512x512_30k.yml'
-model_path = 'output/ekyc_doc_seg_v3_512/best_model/model.pdparams'
-save_dir = 'output/ekyc_doc_seg_v3_512/best_model'
+config = 'configs/pp_liteseg/pp_liteseg_stdc2_ekyc_doc_seg_v4_512x512_30k.yml'
+model_path = 'output/ekyc_doc_seg_v4_512/best_model/model.pdparams'
+save_dir = 'output/ekyc_doc_seg_v4_512/best_model'
 if not os.path.exists(save_dir): os.makedirs(save_dir)
 input_shape = [1,3,512,512]
 

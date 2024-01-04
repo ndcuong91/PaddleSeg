@@ -3,10 +3,10 @@ iters: 30000
 
 train_dataset:
   type: Dataset
-  dataset_root: data/ekyc_doc_seg_v3
+  dataset_root: data/ekyc_doc_seg_v4
   num_classes: 2
   mode: train
-  train_path: data/ekyc_doc_seg_v3/train.txt
+  train_path: data/ekyc_doc_seg_v4/train.txt
   transforms:
     - type: RandomRotation90
     - type: ResizeStepScaling
@@ -27,10 +27,10 @@ train_dataset:
 
 val_dataset:
   type: Dataset
-  dataset_root: data/ekyc_doc_seg_v3/
+  dataset_root: data/ekyc_doc_seg_v4/
   num_classes: 2
   mode: val
-  val_path: data/ekyc_doc_seg_v3/val.txt
+  val_path: data/ekyc_doc_seg_v4/val.txt
   transforms:
     - type: Normalize
 

@@ -99,13 +99,13 @@ def resize_all_data_in_dir(input_dir, res = (600,400)):
 
 
 if __name__=='__main__':
-    input_dir = '/home/haongnd/id_classification/data_resize/to_detection'
-    output_dir = '/home/haongnd/id_classification/data_resize/to_detection_test'
+    # input_dir = '/home/haongnd/id_classification/data_resize/to_detection'
+    # output_dir = '/home/haongnd/id_classification/data_resize/to_detection_test'
     # if not os.path.exists(output_dir): os.makedirs(output_dir)
     # create_doc_rot_test(input_dir, output_dir)
 
-    split_train_val(input_img='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det_4k6/images',
-                    input_anno='/home/misa/cuongnd/ultralytics/datasets/ekyc_doc_det_4k6/labels')
+    split_train_val(input_img='/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/ekyc_doc_det_v2/images',
+                    input_anno='/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/ekyc_doc_det_v2/labels')
 
     # convert_rgbgray('/home/misa/Downloads/project-55-at-2023-06-26-09-48-2a8e1279/labels_crop2')
 

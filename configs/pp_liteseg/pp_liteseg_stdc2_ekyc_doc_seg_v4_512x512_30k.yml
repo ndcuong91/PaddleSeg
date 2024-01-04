@@ -1,4 +1,4 @@
-_base_: './pp_liteseg_stdc1_ekyc_doc_seg_v3_512x512_30k.yml'
+_base_: './pp_liteseg_stdc1_ekyc_doc_seg_v4_512x512_30k.yml'
 
 model:
   _inherited_: False  # not inherit the model params from the base yaml
