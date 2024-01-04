@@ -42,15 +42,17 @@ def yoloseg2det(anno_dir,
 
     #for segmentation
     if save_crop_image_and_crop_anno:
-        output_anno_dir = imgs_dir + '_anno_crop'
+        output_anno_dir = os.path.dirname(imgs_dir) + '/crop_labels'
         if not os.path.exists(output_anno_dir): os.makedirs(output_anno_dir)
-        output_imgs_dir = imgs_dir + '_imgs_crop'
+        output_anno_yolo_dir = os.path.dirname(imgs_dir) + '/crop_labels_yolo'
+        if not os.path.exists(output_anno_yolo_dir): os.makedirs(output_anno_yolo_dir)
+        output_imgs_dir = os.path.dirname(imgs_dir) + '/crop_images'
         if not os.path.exists(output_imgs_dir): os.makedirs(output_imgs_dir)
     print('Generating dataset from:', anno_dir)
     total_count=0
     for idx, label_file in enumerate(list_anno):
         if idx < 0: continue
-        # if 'f1c1116f-cccd_ffd87b8719674dc29523d8efeb63a481637995166662272115' not in label_file:
+        # if '00368' not in label_file:
         #     continue
         print(idx, label_file)
 
@@ -69,9 +71,9 @@ def yoloseg2det(anno_dir,
             anno_lines = anno_lines.split('\n')
             count =0
             for jdx, line in enumerate(anno_lines):
+                if line == '': continue
                 if save_crop_image_and_crop_anno and imgs_dir is not None:
                     label = np.zeros(img.shape[:2], dtype=np.int32)
-                if line == '': continue
                 count +=1
                 split_str = line.split(' ')
                 num_pts = int((len(split_str) - 1) / 2)
@@ -101,6 +103,20 @@ def yoloseg2det(anno_dir,
                     crop_y2 = int(min(img_h - 1, max_y + extend_y))
                     crop_img = img[crop_y1:crop_y2, crop_x1:crop_x2]
                     crop_label = label[crop_y1:crop_y2, crop_x1:crop_x2]
+
+
+                    #save anno yolo
+                    crop_w = crop_x2-crop_x1
+                    crop_h = crop_y2-crop_y1
+                    new_list_pts = [split_str[0]]
+                    for pts in list_pts:
+                        new_list_pts.append(str(round((pts[0] -crop_x1)/crop_w,4)))
+                        new_list_pts.append(str(round((pts[1]- crop_y1)/crop_h,4)))
+
+                    crop_anno = ' '.join(new_list_pts)
+                    with open(os.path.join(output_anno_yolo_dir, base + '_{}.txt'.format(str(jdx))), mode='w') as fi:
+                        fi.write(crop_anno)
+
                     if resize_width is not None:
                         crop_img, ratio = resize_normalize(crop_img, resize_width, interpolate=True)
                         crop_label, _ = resize_normalize(crop_label, resize_width, interpolate=False)
@@ -125,12 +141,12 @@ def yoloseg2det(anno_dir,
             # if count>5:
             #     print('image has more than 5 objects', count)
             total_count +=count
-    print('total anno', total_count)
+    print('total id object', total_count)
 
 
 if __name__ == '__main__':
-    imgs_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/images'
-    anno_dir = '/home/misa/Downloads/project-230-at-2023-12-27-04-53-dbfcb244/labels'
+    imgs_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/evaluation/ekyc_doc_seg/ekyc_doc_seg_v4_train/images'
+    anno_dir = '/home/misa/PycharmProjects/MISA.eKYC2/data/evaluation/ekyc_doc_seg/ekyc_doc_seg_v4_train/labels'
     yoloseg2det(anno_dir=anno_dir,
                 save_crop_image_and_crop_anno=True,
                 imgs_dir=imgs_dir,
